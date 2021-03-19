@@ -11,7 +11,7 @@
             </tr>
             </thead>
             <tbody>
-              <tr v-for="task in tasks" :key="task.id">
+              <tr @click="gotoDetail(task)" v-for="task in tasks" :key="task.id">
                   <td>{{ task.id }}</td>
                   <td>{{ task.task }}</td>
                   <td>{{ task.assignee }}</td>
@@ -36,6 +36,7 @@
 
 <script>
     import EditModal from './EditModal.vue'
+    import router from '../routes'
 
     export default {
         name: 'Tasks',
@@ -49,6 +50,10 @@
             },
             taskEdit(data) {
                 this.$emit('editTask', data)
+            },
+            gotoDetail(task) {
+                localStorage.setItem('task', JSON.stringify(task))
+                router.push('detail');
             }
         }
      }
