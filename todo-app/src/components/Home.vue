@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="App">
-      <Header></Header>
+      <Header v-if="settings == true" :appSettings="appSettings"></Header>
       <div class="container mrgnbtm">
         <div class="row">
           <div class="col-md-12">
@@ -22,7 +22,7 @@ import Header from './Header.vue'
 import CreateTask from './CreateTask.vue'
 import Tasks from './Tasks.vue'
 
-import { getAllTasks, createTask, deleteTask, editTask } from '../services/TodoService'
+import { getAllTasks, createTask, deleteTask, editTask, fetchSettings } from '../services/TodoService'
 
 console.log('Home')
 
@@ -35,7 +35,9 @@ export default {
   },
   data() {
       return {
-          tasks: []
+          tasks: [],
+          appSettings: {},
+          settings: false
       }
   },
   methods: {
@@ -63,9 +65,18 @@ export default {
         console.log(res);
         this.getAllTasks();
       })
+    },
+    getSettings() {
+       fetchSettings().then(res => {
+         console.log("settings   ", res)
+         this.appSettings = res;
+         this.settings = true
+       })
     }
   },
   mounted () {
+    // fetching settings
+    this.getSettings();
     this.getAllTasks();
   }
 }
