@@ -1,4 +1,4 @@
-{
+npm {
     "navigationFallback": {
         "rewrite": "index.html"
     },
